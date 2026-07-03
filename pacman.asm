@@ -226,7 +226,7 @@ mov_esquerda:
     cmp r5, r7
     jeq finaliza_mov
     
-    dec r0
+   dec r0
     jmp finaliza_mov 
 
 mov_baixo:
@@ -434,63 +434,403 @@ loop_interno:
 ; ================= SONS =================
 ; SOUND Rx, Ry, Rz -> Rx = frequencia (Hz), Ry = duracao (ms), Rz = onda (0=sine 1=square 2=triangle 3=sawtooth)
 
-TocaMusicaIntro:
-    push r0
-    push r1
-    push r2
-    loadn r2, #0        ; onda seno
-    loadn r0, #523       ; C5
-    loadn r1, #150
-    SOUND r0, r1, r2
-    loadn r0, #659       ; E5
-    loadn r1, #150
-    SOUND r0, r1, r2
-    loadn r0, #784       ; G5
-    loadn r1, #150
-    SOUND r0, r1, r2
-    loadn r0, #1047      ; C6
-    loadn r1, #300
-    SOUND r0, r1, r2
-    pop r2
-    pop r1
-    pop r0
-    rts
+
+
 
 TocaMusicaGameOver:
-    push r0
+push r0
     push r1
     push r2
-    loadn r2, #1        ; onda quadrada
-    loadn r0, #392       ; G4
+
+    loadn r2, #1          ; Onda quadrada (som clássico de arcade)
+
+    ; -------------------------------------------------------------
+    ; SEQUÊNCIA DE GAME OVER (Descida cromática e efeitos de queda)
+    ; -------------------------------------------------------------
+    loadn r0, #1046       ; Dó 6 (Começo agudo)
     loadn r1, #200
     SOUND r0, r1, r2
-    loadn r0, #349       ; F4
+
+    loadn r0, #988        ; Si 5
     loadn r1, #200
     SOUND r0, r1, r2
-    loadn r0, #294       ; D4
+
+    loadn r0, #880        ; Lá 5
     loadn r1, #200
     SOUND r0, r1, r2
-    loadn r0, #196       ; G3
-    loadn r1, #500
+
+    loadn r0, #784        ; Sol 5
+    loadn r1, #200
     SOUND r0, r1, r2
+
+    loadn r0, #740        ; Fá# 5
+    loadn r1, #200
+    SOUND r0, r1, r2
+
+    loadn r0, #698        ; Fá 5
+    loadn r1, #200
+    SOUND r0, r1, r2
+
+    loadn r0, #622        ; Ré# 5
+    loadn r1, #400        ; Nota segurada um pouco mais
+    SOUND r0, r1, r2
+
+    ; Pequena pausa musical simulando o início do desaparecimento
+    loadn r0, #0          ; Sem som / silêncio rápido
+    loadn r1, #100
+    SOUND r0, r1, r2
+
+    ; Último suspiro antes de sumir (Notas graves finais)
+    loadn r0, #494        ; Si 4
+    loadn r1, #200
+    SOUND r0, r1, r2
+
+    loadn r0, #440        ; Lá 4
+    loadn r1, #200
+    SOUND r0, r1, r2
+
+    loadn r0, #392        ; Sol 4
+    loadn r1, #200
+    SOUND r0, r1, r2
+
+    loadn r0, #349        ; Fá 4
+    loadn r1, #200
+    SOUND r0, r1, r2
+
+    loadn r0, #293        ; Ré 4 (Nota final do Game Over, bem longa)
+    loadn r1, #600
+    SOUND r0, r1, r2
+
     pop r2
     pop r1
     pop r0
     rts
 
+TocaMusicaIntro:
+ 
+    push r0
+    push r1
+    push r2
+
+    loadn r2, #2          ; Onda quadrada
+
+    ; -------------------------------------------------------------
+    ; PARTE 1: A subida clássica
+    ; -------------------------------------------------------------
+    loadn r0, #523        ; Dó 5
+    loadn r1, #175        ; Tempo base
+    SOUND r0, r1, r2
+
+    loadn r0, #1046       ; Dó 6
+    loadn r1, #175
+    SOUND r0, r1, r2
+
+    loadn r0, #784        ; Sol 5
+    loadn r1, #175
+    SOUND r0, r1, r2
+
+    loadn r0, #659        ; Mi 5
+    loadn r1, #175
+    SOUND r0, r1, r2
+
+    loadn r0, #1046       ; Dó 6
+    loadn r1, #87         ; Nota curta (metade do tempo base)
+    SOUND r0, r1, r2
+
+    loadn r0, #784        ; Sol 5
+    loadn r1, #87
+    SOUND r0, r1, r2
+
+    loadn r0, #659        ; Mi 5
+    loadn r1, #262        ; Nota com sustentação (1.5x o tempo base)
+    SOUND r0, r1, r2
+
+    ; -------------------------------------------------------------
+    ; PARTE 2: A repetição meio tom abaixo
+    ; -------------------------------------------------------------
+    loadn r0, #554        ; Dó# 5
+    loadn r1, #175
+    SOUND r0, r1, r2
+
+    loadn r0, #1109       ; Dó# 6
+    loadn r1, #175
+    SOUND r0, r1, r2
+
+    loadn r0, #831        ; Sol# 5
+    loadn r1, #175
+    SOUND r0, r1, r2
+
+    loadn r0, #698        ; Fá 5
+    loadn r1, #175
+    SOUND r0, r1, r2
+
+    loadn r0, #1109       ; Dó# 6
+    loadn r1, #87
+    SOUND r0, r1, r2
+
+    loadn r0, #831        ; Sol# 5
+    loadn r1, #87
+    SOUND r0, r1, r2
+
+    loadn r0, #698        ; Fá 5
+    loadn r1, #262
+    SOUND r0, r1, r2
+
+    ; -------------------------------------------------------------
+    ; PARTE 3: Repetição da variação aguda
+    ; -------------------------------------------------------------
+    loadn r0, #523        ; Dó 5
+    loadn r1, #175
+    SOUND r0, r1, r2
+
+    loadn r0, #1046       ; Dó 6
+    loadn r1, #175
+    SOUND r0, r1, r2
+
+    loadn r0, #784        ; Sol 5
+    loadn r1, #175
+    SOUND r0, r1, r2
+
+    loadn r0, #659        ; Mi 5
+    loadn r1, #175
+    SOUND r0, r1, r2
+
+    loadn r0, #1046       ; Dó 6
+    loadn r1, #87
+    SOUND r0, r1, r2
+
+    loadn r0, #784        ; Sol 5
+    loadn r1, #87
+    SOUND r0, r1, r2
+
+    loadn r0, #659        ; Mi 5
+    loadn r1, #262
+    SOUND r0, r1, r2
+
+    ; -------------------------------------------------------------
+    ; PARTE 4: O encerramento rápido (Descida cromática e nota final)
+    ; -------------------------------------------------------------
+    loadn r0, #659        ; Mi 5
+    loadn r1, #87
+    SOUND r0, r1, r2
+
+    loadn r0, #698        ; Fá 5
+    loadn r1, #87
+    SOUND r0, r1, r2
+
+    loadn r0, #740        ; Fá# 5
+    loadn r1, #87
+    SOUND r0, r1, r2
+
+    loadn r0, #740        ; Fá# 5
+    loadn r1, #87
+    SOUND r0, r1, r2
+
+    loadn r0, #784        ; Sol 5
+    loadn r1, #87
+    SOUND r0, r1, r2
+
+    loadn r0, #831        ; Sol# 5
+    loadn r1, #87
+    SOUND r0, r1, r2
+
+    loadn r0, #880        ; Lá 5
+    loadn r1, #87
+    SOUND r0, r1, r2
+
+    loadn r0, #880        ; Lá 5
+    loadn r1, #87
+    SOUND r0, r1, r2
+
+    loadn r0, #988        ; Si 5
+    loadn r1, #175
+    SOUND r0, r1, r2
+
+    loadn r0, #1046       ; Dó 6 (Nota final clássica sustentada)
+    loadn r1, #350
+    SOUND r0, r1, r2
+
+    pop r2
+    pop r1
+    pop r0
+    rts
 SomComeuFantasma:
     push r0
     push r1
     push r2
-    loadn r0, #1200
-    loadn r1, #80
-    loadn r2, #2        ; onda triangular, som "pop" curto
+
+    loadn r2, #1          ; Onda quadrada (som clássico de arcade)
+
+    ; --- Subida rápida de frequências (Efeito Arpejo Ascendente) ---
+    loadn r0, #523        ; Dó 5
+    loadn r1, #30
     SOUND r0, r1, r2
+
+    loadn r0, #659        ; Mi 5
+    loadn r1, #30
+    SOUND r0, r1, r2
+
+    loadn r0, #784        ; Sol 5
+    loadn r1, #30
+    SOUND r0, r1, r2
+
+    loadn r0, #1046       ; Dó 6
+    loadn r1, #30
+    SOUND r0, r1, r2
+
+    loadn r0, #1318       ; Mi 6 (Nota bem aguda de impacto)
+    loadn r1, #40
+    SOUND r0, r1, r2
+
+    loadn r0, #1568       ; Sol 6 (O ápice do som de pontuação)
+    loadn r1, #80         ; Um pouco mais longo para destacar o acerto
+    SOUND r0, r1, r2
+
     pop r2
     pop r1
     pop r0
     rts
 
+somfantasmapegoupacman:
+   push r0
+    push r1
+    push r2
+
+    loadn r2, #1          ; Onda quadrada
+
+    ; --- Primeira onda de descida ---
+    loadn r0, #1046       ; Dó 6
+    loadn r1, #40
+    SOUND r0, r1, r2
+
+    loadn r0, #880        ; Lá 5
+    loadn r1, #40
+    SOUND r0, r1, r2
+
+    loadn r0, #698        ; Fá 5
+    loadn r1, #40
+    SOUND r0, r1, r2
+
+    loadn r0, #587        ; Ré 5
+    loadn r1, #40
+    SOUND r0, r1, r2
+
+    ; --- Segunda onda de descida (começa um pouco mais abaixo) ---
+    loadn r0, #988        ; Si 5
+    loadn r1, #40
+    SOUND r0, r1, r2
+
+    loadn r0, #831        ; Sol# 5
+    loadn r1, #40
+    SOUND r0, r1, r2
+
+    loadn r0, #659        ; Mi 5
+    loadn r1, #40
+    SOUND r0, r1, r2
+
+    loadn r0, #554        ; Dó# 5
+    loadn r1, #40
+    SOUND r0, r1, r2
+
+    ; --- Terceira onda de descida ---
+    loadn r0, #932        ; Lá# 5
+    loadn r1, #40
+    SOUND r0, r1, r2
+
+    loadn r0, #784        ; Sol 5
+    loadn r1, #40
+    SOUND r0, r1, r2
+
+    loadn r0, #622        ; Ré# 5
+    loadn r1, #40
+    SOUND r0, r1, r2
+
+    loadn r0, #523        ; Dó 5
+    loadn r1, #40
+    SOUND r0, r1, r2
+
+    ; --- Bipe final e seco do desaparecimento ---
+    loadn r0, #494        ; Si 4
+    loadn r1, #80         ; Um pouco mais longo para fechar
+    SOUND r0, r1, r2
+
+    loadn r0, #247        ; Si 3 (Grave final)
+    loadn r1, #120
+    SOUND r0, r1, r2
+
+    pop r2
+    pop r1
+    pop r0
+    rts
+
+musicapacmancomeudoce:
+    push r0
+    push r1
+    push r2
+
+    loadn r2, #1          ; Onda quadrada (som clássico de arcade)
+
+    ; --- Ciclo 1 da Sirene ---
+    loadn r0, #293        ; Ré 4
+    loadn r1, #80
+    SOUND r0, r1, r2
+
+    loadn r0, #587        ; Ré 5 (Salto de oitava rápido)
+    loadn r1, #80
+    SOUND r0, r1, r2
+
+    ; --- Ciclo 2 da Sirene ---
+    loadn r0, #311        ; Ré# 4
+    loadn r1, #80
+    SOUND r0, r1, r2
+
+    loadn r0, #622        ; Ré# 5
+    loadn r1, #80
+    SOUND r0, r1, r2
+
+    ; --- Ciclo 3 da Sirene ---
+    loadn r0, #329        ; Mi 4
+    loadn r1, #80
+    SOUND r0, r1, r2
+
+    loadn r0, #659        ; Mi 5
+    loadn r1, #80
+    SOUND r0, r1, r2
+
+    ; --- Ciclo 4 da Sirene (Descendo de volta) ---
+    loadn r0, #311        ; Ré# 4
+    loadn r1, #80
+    SOUND r0, r1, r2
+
+    loadn r0, #622        ; Ré# 5
+    loadn r1, #80
+    SOUND r0, r1, r2
+
+    pop r2
+    pop r1
+    pop r0
+    rts
+musicapegoupontinho:
+    push r0
+    push r1
+    push r2
+
+    loadn r2, #1          ; Onda quadrada (som de arcade 8-bit)
+
+    ; --- Nota 1 (Aguda) ---
+    loadn r0, #988        ; Si 5
+    loadn r1, #15         ; Duração bem curta
+    SOUND r0, r1, r2
+
+    ; --- Nota 2 (Grave) ---
+    loadn r0, #494        ; Si 4 (Uma oitava abaixo)
+    loadn r1, #15         ; Duração bem curta
+    SOUND r0, r1, r2
+
+    pop r2
+    pop r1
+    pop r0
+    rts
 ;********************************************************
 ;                       IMPRIME TELA
 ;********************************************************	
@@ -911,6 +1251,7 @@ ComeuDoce:
     store timerPower, r2
     loadn r2, #' '          ; Apaga o doce
     storei r1, r2
+    call musicapacmancomeudoce
     outchar r2, r0
     jmp continua_busca
 
@@ -919,7 +1260,7 @@ ComeuDoce:
 chama_pontuacao:
     push r2
     push r3
-    
+    call musicapegoupontinho
     ; 1. Apaga no Vetor (RAM) - para a lógica de colisão não ler de novo
     loadn r2, #' '
     storei r1, r2      
@@ -1265,7 +1606,7 @@ decrementa_vida:
     push r0
     push r1
     push r2
-
+    call somfantasmapegoupacman
     load r0, vidas
     dec r0
     store vidas, r0
