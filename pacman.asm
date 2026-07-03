@@ -34,6 +34,8 @@ loop_zera_rastro:
     loadn r0, #0 ; numero para zerar a pontuacao
     store pontuacao, r0 ; zera a pontuação na memoria
 
+    call TocaMusicaIntro
+
     loadn r1, #tela4Linha0  ; Carrega a tela de pause
     loadn r0, #0 
     call ImprimeTela2
@@ -325,6 +327,8 @@ game_over:
     push r6
     push r7
 
+    call TocaMusicaGameOver
+
     loadn r1, #tela3Linha0 ;enderço do vetor que contem a mensagem
     loadn r0, #0 ; posição na tela que a mensagem será escrita
 
@@ -423,6 +427,66 @@ loop_interno:
     jnz loop_interno
     dec r0
     jnz loop_externo
+    pop r1
+    pop r0
+    rts
+
+; ================= SONS =================
+; SOUND Rx, Ry, Rz -> Rx = frequencia (Hz), Ry = duracao (ms), Rz = onda (0=sine 1=square 2=triangle 3=sawtooth)
+
+TocaMusicaIntro:
+    push r0
+    push r1
+    push r2
+    loadn r2, #0        ; onda seno
+    loadn r0, #523       ; C5
+    loadn r1, #150
+    SOUND r0, r1, r2
+    loadn r0, #659       ; E5
+    loadn r1, #150
+    SOUND r0, r1, r2
+    loadn r0, #784       ; G5
+    loadn r1, #150
+    SOUND r0, r1, r2
+    loadn r0, #1047      ; C6
+    loadn r1, #300
+    SOUND r0, r1, r2
+    pop r2
+    pop r1
+    pop r0
+    rts
+
+TocaMusicaGameOver:
+    push r0
+    push r1
+    push r2
+    loadn r2, #1        ; onda quadrada
+    loadn r0, #392       ; G4
+    loadn r1, #200
+    SOUND r0, r1, r2
+    loadn r0, #349       ; F4
+    loadn r1, #200
+    SOUND r0, r1, r2
+    loadn r0, #294       ; D4
+    loadn r1, #200
+    SOUND r0, r1, r2
+    loadn r0, #196       ; G3
+    loadn r1, #500
+    SOUND r0, r1, r2
+    pop r2
+    pop r1
+    pop r0
+    rts
+
+SomComeuFantasma:
+    push r0
+    push r1
+    push r2
+    loadn r0, #1200
+    loadn r1, #80
+    loadn r2, #2        ; onda triangular, som "pop" curto
+    SOUND r0, r1, r2
+    pop r2
     pop r1
     pop r0
     rts
@@ -1153,6 +1217,8 @@ Colidiu_Power_Check:
     jeq decrementa_vida     ; Se power for 0, o Pacman morre
 
     ; --- SE COMEU O FANTASMA (PAC-MAN COM POWER) ---
+
+    call SomComeuFantasma
     
     ; Limpa o fantasma de onde ele colidiu (r2 ou r4)
     load r6, fanAtual
@@ -1470,4 +1536,4 @@ antes_pre_main:
     pop r2
     pop r1
     pop r0
-    jmp pre_mainj
+    jmp pre_main
