@@ -44,5 +44,3 @@ Sua tarefa é transcrever uma melodia conhecida para a linguagem Assembly de um 
 ## Tela de você venceu:
 
 <img width="651" height="489" alt="Screenshot from 2026-04-22 15-30-17" src="https://github.com/user-attachments/assets/3643d56f-33b2-4559-9f64-610fb693ec99" />
-
-
